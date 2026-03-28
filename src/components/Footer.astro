@@ -1,0 +1,24 @@
+---
+import { pl } from '../i18n/pl';
+import { en } from '../i18n/en';
+
+interface Props { lang?: 'pl' | 'en'; }
+const { lang = 'pl' } = Astro.props;
+const t = lang === 'en' ? en : pl;
+const base = lang === 'en' ? '/en' : '';
+---
+
+<footer class="border-t border-sky-100 mt-24 bg-sky-50">
+  <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-start gap-8">
+    <div>
+      <p class="text-lg font-semibold text-sky-700">OneDoc</p>
+      <p class="mt-1 text-sm text-gray-400">{t.footer.tagline}</p>
+    </div>
+    <nav class="flex flex-wrap gap-6 text-sm text-gray-500">
+      <a href={`${base}/blog`} class="hover:text-sky-600 transition-colors">{t.nav.blog}</a>
+      <a href={`${base}/portfolio`} class="hover:text-sky-600 transition-colors">{t.nav.portfolio}</a>
+      <a href={lang === 'en' ? '/en/contact' : '/kontakt'} class="hover:text-sky-600 transition-colors">{t.nav.contact}</a>
+    </nav>
+    <p class="text-xs text-gray-400">{t.footer.copy}</p>
+  </div>
+</footer>

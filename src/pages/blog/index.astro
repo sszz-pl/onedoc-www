@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { pl } from '../../i18n/pl';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft && data.lang === 'pl'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const t = pl;
+---
+
+<BaseLayout title="Blog" lang="pl">
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <h1 class="text-3xl font-bold text-gray-900 mb-12">{t.blog.title}</h1>
+    <div class="grid gap-8 md:grid-cols-2">
+      {posts.map(post => (
+        <article class="border border-gray-100 rounded-xl p-6 hover:border-gray-200 transition-colors">
+          <p class="text-xs text-gray-400 mb-2">
+            {new Intl.DateTimeFormat('pl-PL', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.data.date)}
+          </p>
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">{post.data.title}</h2>
+          <p class="text-sm text-gray-500 mb-4">{post.data.description}</p>
+          <a href={`/blog/${post.slug}`} class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+            {t.blog.readMore} →
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

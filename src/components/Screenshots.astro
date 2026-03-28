@@ -1,0 +1,113 @@
+---
+import { pl } from '../i18n/pl';
+import { en } from '../i18n/en';
+
+interface Props { lang?: 'pl' | 'en'; }
+const { lang = 'pl' } = Astro.props;
+const t = lang === 'en' ? en : pl;
+const id = 'slideshow-' + Math.random().toString(36).slice(2, 7);
+---
+
+<section class="py-24 bg-white">
+  <div class="max-w-5xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-gray-800 mb-12 text-center">
+      {t.screenshots.title}
+    </h2>
+
+    <div id={id}>
+
+      <!-- Description + dots -->
+      <div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+
+        <!-- Description -->
+        <p class="slide-desc text-gray-600 text-lg leading-relaxed max-w-xl" style="font-family: 'Lora', serif; font-style: italic;">
+          {t.screenshots.slides[0].desc}
+        </p>
+
+        <!-- Dot navigation -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          {t.screenshots.slides.map((slide, i) => (
+            <button
+              class="dot flex flex-col items-center gap-1 group"
+              data-index={i}
+              aria-label={slide.label}
+            >
+              <span class:list={[
+                'block h-1.5 rounded-full transition-all duration-300',
+                i === 0 ? 'w-8 bg-rose-400' : 'w-3 bg-sky-200 group-hover:bg-sky-400'
+              ]}></span>
+              <span class:list={[
+                'text-xs transition-colors',
+                i === 0 ? 'text-rose-400 font-medium' : 'text-gray-400 group-hover:text-sky-500'
+              ]}>{slide.label}</span>
+            </button>
+          ))}
+        </div>
+
+      </div>
+
+      <!-- Slides -->
+      <div class="slides-wrapper overflow-hidden rounded-2xl shadow-lg border border-sky-100" style="position: relative;">
+        {t.screenshots.slides.map((slide, i) => (
+          <div
+            class="slide transition-opacity duration-700"
+            style={i === 0 ? 'position: relative; opacity: 1;' : 'position: absolute; inset: 0; opacity: 0; pointer-events: none;'}
+            data-index={i}
+          >
+            <img
+              src={slide.src}
+              alt={slide.label}
+              class="w-full object-cover rounded-2xl"
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ id, slides: t.screenshots.slides, intervalMs: 4000 }}>
+  const root = document.getElementById(id);
+  const slideEls = root.querySelectorAll('.slide');
+  const dotEls   = root.querySelectorAll('.dot');
+  const descEl   = root.querySelector('.slide-desc');
+  let current = 0;
+  let timer;
+
+  function goTo(index) {
+    slideEls[current].style.position = 'absolute';
+    slideEls[current].style.inset = '0';
+    slideEls[current].style.opacity = '0';
+    slideEls[current].style.pointerEvents = 'none';
+    dotEls[current].querySelector('span').classList.remove('w-8', 'bg-rose-400');
+    dotEls[current].querySelector('span').classList.add('w-3', 'bg-sky-200');
+    dotEls[current].querySelectorAll('span')[1].classList.remove('text-rose-400', 'font-medium');
+    dotEls[current].querySelectorAll('span')[1].classList.add('text-gray-400');
+
+    current = index;
+
+    slideEls[current].style.position = 'relative';
+    slideEls[current].style.inset = '';
+    slideEls[current].style.opacity = '1';
+    slideEls[current].style.pointerEvents = '';
+    dotEls[current].querySelector('span').classList.remove('w-3', 'bg-sky-200');
+    dotEls[current].querySelector('span').classList.add('w-8', 'bg-rose-400');
+    dotEls[current].querySelectorAll('span')[1].classList.remove('text-gray-400');
+    dotEls[current].querySelectorAll('span')[1].classList.add('text-rose-400', 'font-medium');
+
+    descEl.textContent = slides[current].desc;
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo((current + 1) % slideEls.length), intervalMs);
+  }
+
+  dotEls.forEach((dot, i) => {
+    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+  });
+
+  startTimer();
+</script>

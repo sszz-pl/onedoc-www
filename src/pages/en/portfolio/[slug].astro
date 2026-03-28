@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { en } from '../../../i18n/en';
+
+export async function getStaticPaths() {
+  const items = await getCollection('portfolio', ({ data }) => data.lang === 'en');
+  return items.map(item => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content } = await item.render();
+const t = en;
+---
+
+<BaseLayout title={item.data.title} description={item.data.description} lang="en">
+  <article class="max-w-3xl mx-auto px-6 py-20">
+    <a href="/en/portfolio" class="text-sm text-gray-400 hover:text-gray-600 transition-colors">{t.portfolio.backToPortfolio}</a>
+    {item.data.client && (
+      <p class="mt-6 text-sm text-gray-400">{t.portfolio.client}: {item.data.client}</p>
+    )}
+    <h1 class="mt-2 text-4xl font-bold text-gray-900 leading-tight">{item.data.title}</h1>
+    {item.data.tags && item.data.tags.length > 0 && (
+      <div class="mt-4 flex flex-wrap gap-2">
+        {item.data.tags.map((tag: string) => (
+          <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full">{tag}</span>
+        ))}
+      </div>
+    )}
+    <div class="mt-10 prose prose-gray max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

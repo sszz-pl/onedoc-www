@@ -1,0 +1,29 @@
+---
+import { pl } from '../i18n/pl';
+import { en } from '../i18n/en';
+
+interface Props { lang?: 'pl' | 'en'; }
+const { lang = 'pl' } = Astro.props;
+const t = lang === 'en' ? en : pl;
+const base = lang === 'en' ? '/en' : '';
+---
+
+<header class="sticky top-0 z-50 bg-white border-b border-sky-100">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href={`${base}/`} class="text-xl font-semibold tracking-tight text-sky-700">OneDoc</a>
+    <nav class="hidden md:flex items-center gap-8 text-sm text-gray-600">
+      <a href={`${base}/blog`} class="hover:text-sky-600 transition-colors">{t.nav.blog}</a>
+      <a href={`${base}/portfolio`} class="hover:text-sky-600 transition-colors">{t.nav.portfolio}</a>
+      <a href={lang === 'en' ? '/en/contact' : '/kontakt'} class="hover:text-sky-600 transition-colors">{t.nav.contact}</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <a href={lang === 'en' ? '/' : '/en/'} class="text-sm text-gray-400 hover:text-sky-500 transition-colors">
+        {lang === 'en' ? 'PL' : 'EN'}
+      </a>
+      <a href={lang === 'en' ? '/en/contact' : '/kontakt'}
+        class="text-sm bg-rose-400 text-white px-4 py-2 rounded-lg hover:bg-rose-500 transition-colors">
+        {t.hero.cta}
+      </a>
+    </div>
+  </div>
+</header>

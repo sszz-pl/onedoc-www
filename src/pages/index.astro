@@ -1,17 +1,16 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Comparison from '../components/Comparison.astro';
+import Services from '../components/Services.astro';
+import Screenshots from '../components/Screenshots.astro';
+import CTA from '../components/CTA.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Elektroniczna pamięć firmy" lang="pl">
+  <Hero lang="pl" />
+  <Comparison lang="pl" />
+  <Screenshots lang="pl" />
+  <Services lang="pl" />
+  <CTA lang="pl" />
+</BaseLayout>

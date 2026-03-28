@@ -1,0 +1,38 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { pl } from '../i18n/pl';
+import { en } from '../i18n/en';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  lang?: 'pl' | 'en';
+  tags?: string[];
+}
+
+const { title, description, date, lang = 'pl', tags = [] } = Astro.props;
+const t = lang === 'en' ? en : pl;
+const base = lang === 'en' ? '/en' : '';
+const formattedDate = new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : 'pl-PL', {
+  year: 'numeric', month: 'long', day: 'numeric'
+}).format(date);
+---
+
+<BaseLayout title={title} description={description} lang={lang}>
+  <article class="max-w-3xl mx-auto px-6 py-20">
+    <a href={`${base}/blog`} class="text-sm text-sky-400 hover:text-sky-600 transition-colors">{t.blog.backToBlog}</a>
+    <h1 class="mt-6 text-4xl font-bold text-gray-800 leading-tight">{title}</h1>
+    <p class="mt-3 text-sm text-gray-400">{formattedDate}</p>
+    {tags.length > 0 && (
+      <div class="mt-4 flex flex-wrap gap-2">
+        {tags.map(tag => (
+          <span class="text-xs bg-sky-100 text-sky-600 px-3 py-1 rounded-full">{tag}</span>
+        ))}
+      </div>
+    )}
+    <div class="mt-10 prose prose-gray max-w-none">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>

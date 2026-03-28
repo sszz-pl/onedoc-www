@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { en } from '../../../i18n/en';
+
+const items = (await getCollection('portfolio', ({ data }) => data.lang === 'en'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const t = en;
+---
+
+<BaseLayout title="Portfolio" lang="en">
+  <section class="max-w-6xl mx-auto px-6 py-20">
+    <h1 class="text-3xl font-bold text-gray-900 mb-12">{t.portfolio.title}</h1>
+    <div class="grid gap-8 md:grid-cols-2">
+      {items.map(item => (
+        <article class="border border-gray-100 rounded-xl p-6 hover:border-gray-200 transition-colors">
+          {item.data.client && (
+            <p class="text-xs text-gray-400 mb-2">{t.portfolio.client}: {item.data.client}</p>
+          )}
+          <h2 class="text-lg font-semibold text-gray-900 mb-2">{item.data.title}</h2>
+          <p class="text-sm text-gray-500 mb-4">{item.data.description}</p>
+          <a href={`/en/portfolio/${item.slug}`} class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
+            {t.portfolio.readMore} →
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
