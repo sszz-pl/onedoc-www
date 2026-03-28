@@ -4,6 +4,7 @@ export const en = {
     blog: 'Blog',
     portfolio: 'Portfolio',
     contact: 'Contact',
+    app: 'Open app',
   },
   hero: {
     headline: "Your company's electronic memory",

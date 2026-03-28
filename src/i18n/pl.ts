@@ -4,6 +4,7 @@ export const pl = {
     blog: 'Blog',
     portfolio: 'Portfolio',
     contact: 'Kontakt',
+    app: 'Otwórz aplikację',
   },
   hero: {
     headline: 'Elektroniczna pamięć Twojej firmy',
