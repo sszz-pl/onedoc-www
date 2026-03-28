@@ -50,7 +50,7 @@ const iconBgs = [
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {t.services.items.map((item, i) => (
-        <div class="bg-white rounded-xl p-6 border border-sky-100 hover:border-sky-300 hover:shadow-sm transition-all">
+        <div data-reveal data-delay={String((i % 3) + 1)} class="bg-white rounded-xl p-6 border border-sky-100 hover:border-sky-300 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
           <div class={`inline-flex items-center justify-center w-12 h-12 rounded-lg mb-4 ${iconBgs[i]}`}
             set:html={icons[i]} />
           <h3 class="font-semibold text-sky-700 mb-2">{item.title}</h3>
