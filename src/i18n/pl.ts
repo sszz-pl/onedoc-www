@@ -67,6 +67,12 @@ export const pl = {
     sub: 'Umów bezpłatne demo — pokażemy jak to działa w 30 minut.',
     button: 'Umów demo →',
   },
+  cookies: {
+    message: 'Używamy plików cookie do analizy ruchu i poprawy jakości serwisu. Czy wyrażasz zgodę?',
+    accept: 'Akceptuję',
+    reject: 'Tylko niezbędne',
+    policy: 'Polityka prywatności',
+  },
   footer: {
     copy: '© 2026 OneDoc. Wszelkie prawa zastrzeżone.',
     tagline: 'Elektroniczna pamięć Twojej firmy.',

@@ -1,0 +1,54 @@
+---
+import { pl } from '../i18n/pl';
+import { en } from '../i18n/en';
+
+interface Props { lang?: 'pl' | 'en'; }
+const { lang = 'pl' } = Astro.props;
+const t = lang === 'en' ? en : pl;
+const privacyHref = lang === 'en' ? '/en/privacy-policy' : '/polityka-prywatnosci';
+---
+
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 bg-white border-t border-sky-100 shadow-lg translate-y-full transition-transform duration-500"
+  aria-live="polite"
+>
+  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4 justify-between">
+    <p class="text-sm text-gray-600 leading-relaxed">
+      {t.cookies.message}
+      <a href={privacyHref} class="text-sky-500 hover:underline ml-1">{t.cookies.policy}</a>.
+    </p>
+    <div class="flex gap-3 flex-shrink-0">
+      <button
+        id="cookie-reject"
+        class="text-sm px-4 py-2 rounded-lg border border-sky-200 text-sky-700 hover:bg-sky-50 transition-colors whitespace-nowrap"
+      >
+        {t.cookies.reject}
+      </button>
+      <button
+        id="cookie-accept"
+        class="text-sm px-4 py-2 rounded-lg bg-rose-400 text-white hover:bg-rose-500 transition-colors whitespace-nowrap"
+      >
+        {t.cookies.accept}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById('cookie-banner');
+  const KEY = 'cookie-consent';
+
+  if (!localStorage.getItem(KEY)) {
+    // show after short delay so page load animation finishes first
+    setTimeout(() => banner?.classList.remove('translate-y-full'), 800);
+  }
+
+  function dismiss(value: string) {
+    localStorage.setItem(KEY, value);
+    banner?.classList.add('translate-y-full');
+  }
+
+  document.getElementById('cookie-accept')?.addEventListener('click', () => dismiss('accepted'));
+  document.getElementById('cookie-reject')?.addEventListener('click', () => dismiss('rejected'));
+</script>

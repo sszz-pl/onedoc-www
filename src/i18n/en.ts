@@ -67,6 +67,12 @@ export const en = {
     sub: 'Book a free demo — we\'ll show you how it works in 30 minutes.',
     button: 'Book a demo →',
   },
+  cookies: {
+    message: 'We use cookies to analyse traffic and improve our service. Do you consent?',
+    accept: 'Accept all',
+    reject: 'Necessary only',
+    policy: 'Privacy Policy',
+  },
   footer: {
     copy: '© 2026 OneDoc. All rights reserved.',
     tagline: "Your company's electronic memory.",

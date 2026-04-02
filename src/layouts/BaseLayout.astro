@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import CookieBanner from '../components/CookieBanner.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -30,6 +31,7 @@ const { title, description = 'OneDoc – elektroniczna pamięć firmy', lang = '
       <slot />
     </main>
     <Footer lang={lang} />
+    <CookieBanner lang={lang} />
   </body>
   <script>
     // Scroll reveal
