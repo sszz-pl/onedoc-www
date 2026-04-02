@@ -70,5 +70,6 @@ export const en = {
   footer: {
     copy: '© 2026 OneDoc. All rights reserved.',
     tagline: "Your company's electronic memory.",
+    privacy: 'Privacy Policy',
   },
 };
