@@ -14,15 +14,22 @@ const t = en;
     <h1 class="text-3xl font-bold text-gray-900 mb-12">{t.blog.title}</h1>
     <div class="grid gap-8 md:grid-cols-2">
       {posts.map(post => (
-        <article class="border border-gray-100 rounded-xl p-6 hover:border-gray-200 transition-colors">
-          <p class="text-xs text-gray-400 mb-2">
-            {new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.data.date)}
-          </p>
-          <h2 class="text-lg font-semibold text-gray-900 mb-2">{post.data.title}</h2>
-          <p class="text-sm text-gray-500 mb-4">{post.data.description}</p>
-          <a href={`/en/blog/${post.slug}`} class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-            {t.blog.readMore} →
-          </a>
+        <article class="border border-sky-100 rounded-xl overflow-hidden hover:border-sky-300 hover:shadow-sm transition-all">
+          {post.data.image && (
+            <a href={`/en/blog/${post.slug}`}>
+              <img src={post.data.image} alt={post.data.title} class="w-full h-48 object-cover" />
+            </a>
+          )}
+          <div class="p-6">
+            <p class="text-xs text-gray-400 mb-2">
+              {new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: 'numeric' }).format(post.data.date)}
+            </p>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">{post.data.title}</h2>
+            <p class="text-sm text-gray-500 mb-4">{post.data.description}</p>
+            <a href={`/en/blog/${post.slug}`} class="text-sm font-medium text-sky-600 hover:text-sky-800 transition-colors">
+              {t.blog.readMore} →
+            </a>
+          </div>
         </article>
       ))}
     </div>
