@@ -15,11 +15,24 @@ const t = en;
 
 <BaseLayout title={item.data.title} description={item.data.description} lang="en">
   <article class="max-w-3xl mx-auto px-6 py-20">
-    <a href="/en/portfolio" class="text-sm text-gray-400 hover:text-gray-600 transition-colors">{t.portfolio.backToPortfolio}</a>
-    {item.data.client && (
-      <p class="mt-6 text-sm text-gray-400">{t.portfolio.client}: {item.data.client}</p>
+    <a href="/en/portfolio" class="text-sm text-sky-400 hover:text-sky-600 transition-colors">{t.portfolio.backToPortfolio}</a>
+    {item.data.image && (
+      <div class="mt-8 flex items-center justify-start">
+        <img src={item.data.image} alt={item.data.client ?? item.data.title} class="max-h-16 max-w-xs object-contain" />
+      </div>
     )}
-    <h1 class="mt-2 text-4xl font-bold text-gray-900 leading-tight">{item.data.title}</h1>
+    {item.data.client && (
+      <div class="mt-4 flex items-center gap-3">
+        <p class="text-sm text-sky-500 font-medium">{item.data.client}</p>
+        {item.data.website && (
+          <a href={item.data.website} target="_blank" rel="noopener noreferrer"
+            class="text-xs text-gray-400 hover:text-sky-500 transition-colors">
+            {item.data.website.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '')} ↗
+          </a>
+        )}
+      </div>
+    )}
+    <h1 class="mt-1 text-4xl font-bold text-gray-800 leading-tight">{item.data.title}</h1>
     {item.data.tags && item.data.tags.length > 0 && (
       <div class="mt-4 flex flex-wrap gap-2">
         {item.data.tags.map((tag: string) => (

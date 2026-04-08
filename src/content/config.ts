@@ -21,6 +21,8 @@ const portfolio = defineCollection({
     description: z.string(),
     lang: z.enum(['pl', 'en']),
     client: z.string().optional(),
+    image: z.string().optional(),
+    website: z.string().optional(),
     tags: z.array(z.string()).optional(),
   }),
 });

@@ -14,15 +14,22 @@ const t = pl;
     <h1 class="text-3xl font-bold text-gray-900 mb-12">{t.portfolio.title}</h1>
     <div class="grid gap-8 md:grid-cols-2">
       {items.map(item => (
-        <article class="border border-gray-100 rounded-xl p-6 hover:border-gray-200 transition-colors">
-          {item.data.client && (
-            <p class="text-xs text-gray-400 mb-2">{t.portfolio.client}: {item.data.client}</p>
+        <article class="border border-sky-100 rounded-xl overflow-hidden hover:border-sky-300 hover:shadow-sm transition-all">
+          {item.data.image && (
+            <a href={`/portfolio/${item.slug}`} class="flex items-center justify-center bg-white h-36 px-8">
+              <img src={item.data.image} alt={item.data.client ?? item.data.title} class="max-h-24 max-w-full object-contain" />
+            </a>
           )}
-          <h2 class="text-lg font-semibold text-gray-900 mb-2">{item.data.title}</h2>
-          <p class="text-sm text-gray-500 mb-4">{item.data.description}</p>
-          <a href={`/portfolio/${item.slug}`} class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors">
-            {t.portfolio.readMore} →
-          </a>
+          <div class="p-6">
+            {item.data.client && (
+              <p class="text-xs text-sky-500 font-medium mb-1">{item.data.client}</p>
+            )}
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">{item.data.title}</h2>
+            <p class="text-sm text-gray-500 mb-4">{item.data.description}</p>
+            <a href={`/portfolio/${item.slug}`} class="text-sm font-medium text-sky-600 hover:text-sky-800 transition-colors">
+              {t.portfolio.readMore} →
+            </a>
+          </div>
         </article>
       ))}
     </div>
