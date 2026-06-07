@@ -3,6 +3,7 @@ export const en = {
     home: 'Home',
     blog: 'Blog',
     portfolio: 'Portfolio',
+    pricing: 'Pricing',
     contact: 'Contact',
     app: 'Open app',
   },

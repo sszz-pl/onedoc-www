@@ -1,0 +1,277 @@
+---
+interface Props { lang?: 'pl' | 'en'; }
+const { lang = 'pl' } = Astro.props;
+const isPl = lang !== 'en';
+
+const contactHref = lang === 'en' ? '/en/contact' : '/kontakt';
+
+const tips = {
+  editors: isPl
+    ? 'Osoba tworząca i edytująca artykuły w bazie wiedzy. Ma imienne konto i pełny dostęp do edycji.'
+    : 'A person who creates and edits articles in the knowledge base. Has a named account with full editing access.',
+  articles: isPl
+    ? 'Łączna liczba artykułów w planie. Artykuł to procedura, instrukcja lub dokument firmy.'
+    : 'Total number of articles in the plan. An article is a procedure, guide or company document.',
+  storage: isPl
+    ? 'Łączna pojemność na artykuły, załączniki i pliki (zdjęcia, PDF, instrukcje). Bez ukrytych opłat.'
+    : 'Total capacity for articles, attachments and files (images, PDFs, manuals). No hidden fees.',
+  ai: isPl
+    ? 'Każde pytanie do agenta AI zużywa jedno zapytanie z miesięcznego limitu. Można dokupić dodatkowy pakiet bez przerwy w działaniu.'
+    : 'Each question to the AI agent uses one query from the monthly limit. Additional packages can be purchased without interruption.',
+  readers: isPl
+    ? 'Nielimitowani: każdy pracownik, który dostanie firmowy link, może od razu czytać bazę wiedzy — bez rejestracji, bez limitu osób. Imienni: mają własne konto; administrator przypisuje ich do działu, więc widzą tylko artykuły swojego zespołu.'
+    : 'Unlimited: any employee who receives the company link can read the knowledge base immediately — no registration, no limits. Named: have a personal account; the admin assigns them to a department, so they only see their team\'s articles.',
+  groups: isPl
+    ? 'Podział bazy wiedzy na oddzielne przestrzenie dla różnych działów (np. hala produkcyjna, dział FK, serwis). Każda grupa ma osobny dostęp.'
+    : 'Split the knowledge base into separate spaces per department (e.g. production floor, accounting, service). Each group has its own access.',
+};
+
+interface FeatureRow { label: string; tip: string; }
+
+const featureRows: FeatureRow[] = [
+  { label: isPl ? 'Edytorzy' : 'Editors', tip: tips.editors },
+  { label: isPl ? 'Artykuły' : 'Articles', tip: tips.articles },
+  { label: 'Storage', tip: tips.storage },
+  { label: isPl ? 'Zapytania AI / mies.' : 'AI queries / mo.', tip: tips.ai },
+  { label: isPl ? 'Czytelnicy' : 'Readers', tip: tips.readers },
+  { label: isPl ? 'Grupy / działy' : 'Groups / depts', tip: tips.groups },
+];
+
+interface Plan {
+  id: string;
+  name: string;
+  price: string;
+  priceNote: string;
+  values: string[];
+  badge?: string;
+  ctaText: string;
+  ctaHref: string;
+  ctaExternal?: boolean;
+  highlighted?: boolean;
+}
+
+const plans: Plan[] = [
+  {
+    id: 'demo',
+    name: 'Demo',
+    price: isPl ? 'Bezpłatny' : 'Free',
+    priceNote: isPl ? '30 dni' : '30 days',
+    values: ['1', '10', '100 MB', '—', isPl ? 'Nielimitowani' : 'Unlimited', '—'],
+    ctaText: isPl ? 'Wypróbuj bezpłatnie' : 'Try for free',
+    ctaHref: 'https://app.onedoc.pl/',
+    ctaExternal: true,
+  },
+  {
+    id: 'start',
+    name: 'Start',
+    price: '185 zł',
+    priceNote: isPl ? '/ miesiąc' : '/ month',
+    values: ['1', '50', '1 GB', '—', isPl ? 'Nielimitowani' : 'Unlimited', '—'],
+    ctaText: isPl ? 'Umów demo' : 'Book a demo',
+    ctaHref: contactHref,
+  },
+  {
+    id: 'standard',
+    name: 'Standard',
+    price: '490 zł',
+    priceNote: isPl ? '/ miesiąc' : '/ month',
+    values: ['5', '200', '10 GB', '1 000', isPl ? 'Nielimitowani + imienni' : 'Unlimited + named', '✓'],
+    badge: isPl ? 'Najpopularniejszy' : 'Most popular',
+    ctaText: isPl ? 'Umów demo' : 'Book a demo',
+    ctaHref: contactHref,
+    highlighted: true,
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    price: '890 zł',
+    priceNote: isPl ? '/ miesiąc' : '/ month',
+    values: ['15', isPl ? 'Nielimitowane' : 'Unlimited', '50 GB', '5 000', isPl ? 'Nielimitowani + imienni' : 'Unlimited + named', '✓'],
+    ctaText: isPl ? 'Umów demo' : 'Book a demo',
+    ctaHref: contactHref,
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    price: isPl ? 'Wycena' : 'Custom',
+    priceNote: isPl ? 'indywidualna' : 'pricing',
+    values: [
+      isPl ? 'Nielimitowani' : 'Unlimited',
+      isPl ? 'Nielimitowane' : 'Unlimited',
+      isPl ? 'Do ustalenia' : 'TBD',
+      isPl ? 'Do ustalenia' : 'TBD',
+      isPl ? 'Nielimitowani + imienni' : 'Unlimited + named',
+      '✓',
+    ],
+    ctaText: isPl ? 'Skontaktuj się z nami' : 'Contact us',
+    ctaHref: contactHref,
+  },
+];
+
+interface WhenItem { plan: string; desc: string; ctaText: string; ctaHref: string; ctaExternal?: boolean; }
+
+const whenItems: WhenItem[] = isPl ? [
+  { plan: 'Demo',       desc: 'Chcę sprawdzić jak to działa, bez zobowiązań',                                                          ctaText: 'Wypróbuj bezpłatnie', ctaHref: 'https://app.onedoc.pl/', ctaExternal: true },
+  { plan: 'Start',      desc: 'Mała firma, jedna osoba prowadzi bazę wiedzy, wszyscy mają dostęp przez link',                          ctaText: 'Umów demo',           ctaHref: contactHref },
+  { plan: 'Standard',   desc: 'Zakład produkcyjny, kilka działów, potrzebuję AI który odpowiada na pytania pracowników',               ctaText: 'Umów demo',           ctaHref: contactHref },
+  { plan: 'Pro',        desc: 'Duża firma, wiele działów, wielu redaktorów, pełna kontrola',                                           ctaText: 'Umów demo',           ctaHref: contactHref },
+  { plan: 'Enterprise', desc: 'Korporacja, własne wymagania, integracja z ERP, SLA',                                                   ctaText: 'Skontaktuj się',      ctaHref: contactHref },
+] : [
+  { plan: 'Demo',       desc: 'I want to see how it works, no commitment',                                                             ctaText: 'Try for free',  ctaHref: 'https://app.onedoc.pl/', ctaExternal: true },
+  { plan: 'Start',      desc: 'Small company, one person manages the knowledge base, everyone accesses via link',                      ctaText: 'Book a demo',   ctaHref: contactHref },
+  { plan: 'Standard',   desc: 'Manufacturing plant, multiple departments, need AI to answer employee questions',                       ctaText: 'Book a demo',   ctaHref: contactHref },
+  { plan: 'Pro',        desc: 'Large company, many departments, many editors, full control',                                           ctaText: 'Book a demo',   ctaHref: contactHref },
+  { plan: 'Enterprise', desc: 'Corporation, custom requirements, ERP integration, SLA',                                               ctaText: 'Contact us',    ctaHref: contactHref },
+];
+---
+
+<section class="bg-slate-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-20">
+
+    <!-- Header -->
+    <div data-reveal class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+        {isPl ? 'Prosty cennik. Żadnych niespodzianek.' : 'Simple pricing. No surprises.'}
+      </h1>
+      <p class="mt-4 text-lg text-gray-500 max-w-2xl mx-auto">
+        {isPl
+          ? 'Wybierz plan dopasowany do wielkości Twojej firmy. Możesz zmienić plan w każdej chwili.'
+          : 'Choose a plan suited to your company size. You can change plans at any time.'}
+      </p>
+    </div>
+
+    <!-- Plan cards -->
+    <div data-reveal class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-6">
+      {plans.map((plan) => (
+        <div class={`relative flex flex-col rounded-2xl transition-shadow ${
+          plan.highlighted
+            ? 'bg-sky-900 text-white shadow-2xl ring-2 ring-sky-700/60'
+            : 'bg-white border border-gray-200 text-gray-900 shadow-sm hover:shadow-md'
+        } px-7 ${plan.highlighted ? 'py-10' : 'py-8'}`}>
+
+          <!-- Badge -->
+          {plan.badge && (
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap">
+              <span class="bg-rose-400 text-white text-xs font-semibold px-4 py-1 rounded-full shadow">
+                {plan.badge}
+              </span>
+            </div>
+          )}
+
+          <!-- Plan name -->
+          <p class={`text-xs font-bold uppercase tracking-widest ${plan.highlighted ? 'text-sky-300' : 'text-gray-400'}`}>
+            {plan.name}
+          </p>
+
+          <!-- Price -->
+          <div class="mt-3 mb-7">
+            <span class={`text-3xl font-extrabold leading-none ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+              {plan.price}
+            </span>
+            {plan.priceNote && (
+              <span class={`text-sm ml-1.5 ${plan.highlighted ? 'text-sky-300' : 'text-gray-400'}`}>
+                {plan.priceNote}
+              </span>
+            )}
+          </div>
+
+          <!-- Divider -->
+          <div class={`mb-6 h-px ${plan.highlighted ? 'bg-sky-700' : 'bg-gray-100'}`}></div>
+
+          <!-- Features -->
+          <ul class="flex-1 space-y-3.5 mb-8">
+            {featureRows.map((row, i) => (
+              <li class="flex items-center justify-between gap-2 text-xs">
+                <!-- Label with tooltip -->
+                <span class="group/tip relative inline-flex items-center gap-1 cursor-help">
+                  <span class={plan.highlighted ? 'text-sky-200' : 'text-gray-500'}>
+                    {row.label}
+                  </span>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                    class={`w-3 h-3 shrink-0 ${plan.highlighted ? 'text-sky-500' : 'text-gray-300'}`}>
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd" />
+                  </svg>
+                  <!-- Tooltip bubble -->
+                  <span class="pointer-events-none absolute bottom-full left-0 mb-2.5 w-56 text-xs bg-gray-900 text-white rounded-xl px-3 py-2.5 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 z-40 leading-relaxed shadow-xl">
+                    {row.tip}
+                    <span class="absolute top-full left-4 border-4 border-transparent border-t-gray-900"></span>
+                  </span>
+                </span>
+                <!-- Value -->
+                <span class={`font-semibold shrink-0 ${
+                  plan.highlighted
+                    ? plan.values[i] === '✓' ? 'text-emerald-300' : plan.values[i] === '—' ? 'text-sky-600' : 'text-white'
+                    : plan.values[i] === '✓' ? 'text-emerald-500' : plan.values[i] === '—' ? 'text-gray-300' : 'text-gray-800'
+                }`}>
+                  {plan.values[i]}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <!-- CTA button -->
+          <a
+            href={plan.ctaHref}
+            target={plan.ctaExternal ? '_blank' : undefined}
+            rel={plan.ctaExternal ? 'noopener noreferrer' : undefined}
+            class={`block text-center text-sm font-semibold rounded-xl px-4 py-3 transition-colors ${
+              plan.highlighted
+                ? 'bg-white text-sky-900 hover:bg-sky-50'
+                : plan.id === 'demo'
+                ? 'bg-emerald-500 text-white hover:bg-emerald-600'
+                : plan.id === 'enterprise'
+                ? 'bg-slate-800 text-white hover:bg-slate-900'
+                : 'border-2 border-sky-600 text-sky-700 hover:bg-sky-50'
+            }`}
+          >
+            {plan.ctaText}
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- Notes -->
+    <p class="text-center text-xs text-gray-400 mt-10 max-w-2xl mx-auto">
+      {isPl
+        ? '* Limit zapytań AI można w każdej chwili uzupełnić — dostępne dodatkowe pakiety zapytań do dokupienia.'
+        : '* AI query limit can be topped up at any time — additional packages available for purchase.'}
+    </p>
+    <p class="text-center text-sm text-gray-500 mt-3 max-w-2xl mx-auto">
+      {isPl
+        ? 'Wszystkie plany zawierają nielimitowany dostęp czytelników przez link firmowy. Płacisz tylko za edytorów i funkcje.'
+        : 'All plans include unlimited reader access via company link. You only pay for editors and features.'}
+    </p>
+
+    <!-- When which plan -->
+    <div data-reveal class="mt-20 max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">
+        {isPl ? 'Kiedy który plan?' : 'Which plan is right for you?'}
+      </h2>
+      <div class="space-y-3">
+        {whenItems.map((item) => (
+          <div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-white rounded-xl px-5 py-4 border border-gray-100 shadow-sm">
+            <span class="shrink-0 bg-sky-100 text-sky-800 text-xs font-bold px-2.5 py-1 rounded-lg self-start">
+              {item.plan}
+            </span>
+            <p class="flex-1 text-sm text-gray-600 leading-relaxed">{item.desc}</p>
+            <a
+              href={item.ctaHref}
+              target={item.ctaExternal ? '_blank' : undefined}
+              rel={item.ctaExternal ? 'noopener noreferrer' : undefined}
+              class={`shrink-0 text-xs font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${
+                item.plan === 'Demo'
+                  ? 'bg-emerald-500 text-white hover:bg-emerald-600'
+                  : item.plan === 'Enterprise'
+                  ? 'bg-slate-800 text-white hover:bg-slate-900'
+                  : 'border-2 border-sky-600 text-sky-700 hover:bg-sky-50'
+              }`}
+            >
+              {item.ctaText} →
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>

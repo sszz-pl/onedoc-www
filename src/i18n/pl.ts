@@ -3,6 +3,7 @@ export const pl = {
     home: 'Strona główna',
     blog: 'Blog',
     portfolio: 'Portfolio',
+    pricing: 'Cennik',
     contact: 'Kontakt',
     app: 'Otwórz aplikację',
   },
