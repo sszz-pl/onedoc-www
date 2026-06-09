@@ -58,7 +58,7 @@ const plans: Plan[] = [
     priceNote: isPl ? '30 dni' : '30 days',
     values: ['1', '10', '100 MB', '—', isPl ? 'Nielimitowani' : 'Unlimited', '—'],
     ctaText: isPl ? 'Wypróbuj bezpłatnie' : 'Try for free',
-    ctaHref: 'https://app.onedoc.pl/',
+    ctaHref: 'https://app.onedoc.pl/register',
     ctaExternal: true,
   },
   {
@@ -111,13 +111,13 @@ const plans: Plan[] = [
 interface WhenItem { plan: string; desc: string; ctaText: string; ctaHref: string; ctaExternal?: boolean; }
 
 const whenItems: WhenItem[] = isPl ? [
-  { plan: 'Demo',       desc: 'Chcę sprawdzić jak to działa, bez zobowiązań',                                                          ctaText: 'Wypróbuj bezpłatnie', ctaHref: 'https://app.onedoc.pl/', ctaExternal: true },
+  { plan: 'Demo',       desc: 'Chcę sprawdzić jak to działa, bez zobowiązań',                                                          ctaText: 'Wypróbuj bezpłatnie', ctaHref: 'https://app.onedoc.pl/register', ctaExternal: true },
   { plan: 'Start',      desc: 'Mała firma, jedna osoba prowadzi bazę wiedzy, wszyscy mają dostęp przez link',                          ctaText: 'Umów demo',           ctaHref: contactHref },
   { plan: 'Standard',   desc: 'Zakład produkcyjny, kilka działów, potrzebuję AI który odpowiada na pytania pracowników',               ctaText: 'Umów demo',           ctaHref: contactHref },
   { plan: 'Pro',        desc: 'Duża firma, wiele działów, wielu redaktorów, pełna kontrola',                                           ctaText: 'Umów demo',           ctaHref: contactHref },
   { plan: 'Enterprise', desc: 'Korporacja, własne wymagania, integracja z ERP, SLA',                                                   ctaText: 'Skontaktuj się',      ctaHref: contactHref },
 ] : [
-  { plan: 'Demo',       desc: 'I want to see how it works, no commitment',                                                             ctaText: 'Try for free',  ctaHref: 'https://app.onedoc.pl/', ctaExternal: true },
+  { plan: 'Demo',       desc: 'I want to see how it works, no commitment',                                                             ctaText: 'Try for free',  ctaHref: 'https://app.onedoc.pl/register', ctaExternal: true },
   { plan: 'Start',      desc: 'Small company, one person manages the knowledge base, everyone accesses via link',                      ctaText: 'Book a demo',   ctaHref: contactHref },
   { plan: 'Standard',   desc: 'Manufacturing plant, multiple departments, need AI to answer employee questions',                       ctaText: 'Book a demo',   ctaHref: contactHref },
   { plan: 'Pro',        desc: 'Large company, many departments, many editors, full control',                                           ctaText: 'Book a demo',   ctaHref: contactHref },
