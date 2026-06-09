@@ -64,7 +64,7 @@ const plans: Plan[] = [
   {
     id: 'start',
     name: 'Start',
-    price: '185 zł',
+    price: isPl ? '185 zł' : '€44',
     priceNote: isPl ? '/ miesiąc' : '/ month',
     values: ['1', '50', '1 GB', '—', isPl ? 'Nielimitowani' : 'Unlimited', '—'],
     ctaText: isPl ? 'Umów demo' : 'Book a demo',
@@ -73,7 +73,7 @@ const plans: Plan[] = [
   {
     id: 'standard',
     name: 'Standard',
-    price: '490 zł',
+    price: isPl ? '490 zł' : '€116',
     priceNote: isPl ? '/ miesiąc' : '/ month',
     values: ['5', '200', '10 GB', '1 000', isPl ? 'Nielimitowani + imienni' : 'Unlimited + named', '✓'],
     badge: isPl ? 'Najpopularniejszy' : 'Most popular',
@@ -84,7 +84,7 @@ const plans: Plan[] = [
   {
     id: 'pro',
     name: 'Pro',
-    price: '890 zł',
+    price: isPl ? '890 zł' : '€210',
     priceNote: isPl ? '/ miesiąc' : '/ month',
     values: ['15', isPl ? 'Nielimitowane' : 'Unlimited', '50 GB', '5 000', isPl ? 'Nielimitowani + imienni' : 'Unlimited + named', '✓'],
     ctaText: isPl ? 'Umów demo' : 'Book a demo',
